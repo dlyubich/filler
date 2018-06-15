@@ -15,7 +15,7 @@
 int		**create_mas(int height, int width)
 {
 	int	i;
-	int j;
+	int	j;
 	int	**arr;
 
 	i = 0;
@@ -34,7 +34,7 @@ int		**create_mas(int height, int width)
 	return (arr);
 }
 
-void		fill_mas(t_fill *filler)
+void	fill_mas(t_fill *filler)
 {
 	int	i;
 	int	j;
@@ -42,10 +42,11 @@ void		fill_mas(t_fill *filler)
 	i = 0;
 	while (i < filler->map_height)
 	{
-		j = 4;
-		while (j < filler->map_width + 4)
+		j = 0;
+		while (j < filler->map_width)
 		{
-			if (filler->board[i][j] == filler->enemy || filler->board[i][j] == filler->enemy + 32)
+			if (filler->board[i][j] == filler->enemy
+			|| filler->board[i][j] == filler->enemy + 32)
 				filler->map[i][j] = 0;
 			j++;
 		}
@@ -59,7 +60,8 @@ void	check_helper(t_fill *filler, int i, int j, int tmp)
 		filler->map[j - 1][i] = tmp + 1;
 	if (j - 1 >= 0 && i - 1 >= 0 && filler->map[j - 1][i - 1] == -1)
 		filler->map[j - 1][i - 1] = tmp + 1;
-	if (j - 1 >= 0 && i + 1 < filler->map_width && filler->map[j - 1][i + 1] == -1)
+	if (j - 1 >= 0 && i + 1 < filler->map_width &&
+	filler->map[j - 1][i + 1] == -1)
 		filler->map[j - 1][i + 1] = tmp + 1;
 	if (i - 1 >= 0 && filler->map[j][i - 1] == -1)
 		filler->map[j][i - 1] = tmp + 1;
@@ -67,9 +69,11 @@ void	check_helper(t_fill *filler, int i, int j, int tmp)
 		filler->map[j][i + 1] = tmp + 1;
 	if (j + 1 < filler->map_height && filler->map[j + 1][i] == -1)
 		filler->map[j + 1][i] = tmp + 1;
-	if (j + 1 < filler->map_height && i - 1 >= 0 && filler->map[j + 1][i - 1] == -1)
+	if (j + 1 < filler->map_height && i - 1 >= 0
+	&& filler->map[j + 1][i - 1] == -1)
 		filler->map[j + 1][i - 1] = tmp + 1;
-	if (j + 1 < filler->map_height && i + 1 < filler->map_width && filler->map[j + 1][i + 1] == -1)
+	if (j + 1 < filler->map_height && i + 1 < filler->map_width
+	&& filler->map[j + 1][i + 1] == -1)
 		filler->map[j + 1][i + 1] = tmp + 1;
 }
 
@@ -77,11 +81,10 @@ void	distance_map(t_fill *filler)
 {
 	int	i;
 	int	j;
-	int tmp;
+	int	tmp;
 
-	i = 0;
 	tmp = 0;
-	while (check_minus_one(filler))
+	while (check_minus_one(filler) && tmp != 15)
 	{
 		j = 0;
 		while (j < filler->map_height)
@@ -100,46 +103,10 @@ void	distance_map(t_fill *filler)
 }
 
 void	ft_main_solution(t_fill *filler)
-{ 
-	//static int a;
+{
 	filler->map = create_mas(filler->map_height, filler->map_width);
 	fill_mas(filler);
 	distance_map(filler);
-	// printf("player - %c\nheight- %d\nwidth - %d\nDISTANCE MAP:\n", filler->sym, filler->map_height, filler->map_width);
-	// for (int i = 0;i< filler->map_height; ++i)
-	// {
-	// 	for (int j = 0; j < filler->map_width; ++j)
-	// 	{
-	// 		printf("%d ", filler->map[i][j]);
-	// 	}
-	// 	printf("\n");
-	// }
-	solution(filler, -1, -1);
-	// if (a == 1)
-	// {
-	// FILE *pFile;
-	// pFile = fopen("myfile5.txt", "w");
-	// fprintf(pFile, "x: %d y: %d\n", filler->x, filler->y);
-	// fclose(pFile);
-	// a++;
-	// }
-	// if (a == 2)
-	// {
-	// FILE *pFile;
-	// pFile = fopen("myfile6.txt", "w");
-	// fprintf(pFile, "x: %d y: %d\n", filler->x, filler->y);
-	// fclose(pFile);
-	// sleep(1000);
-	// a++;
-	// }
-	// if (a == 3)
-	// {
-	// FILE *pFile;
-	// pFile = fopen("myfile7.txt", "w");
-	// fprintf(pFile, "x: %d y: %d\n", filler->x, filler->y);
-	// fclose(pFile);
-	// a++;
-	// }
-	// //sleep(1000);
-	ft_printf("%d %d\n", filler->x, filler->y);
+	solution(filler, 0 - filler->token_height, -1);
+	ft_printf("%d %d\n", filler->y, filler->x);
 }

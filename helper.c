@@ -18,45 +18,45 @@ void	ft_error(void)
 	exit(EXIT_FAILURE);
 }
 
-void    parse_map_size(char *buf, t_fill *filler)
+int		parse_map_size(char *buf, t_fill *filler)
 {
-    if (!ft_strncmp(buf, "Plateau", 7))
-    {
-        buf = ft_strchr(buf, ' ') + 1;
-        filler->map_height = ft_atoi(buf);
-        filler->map_width = ft_atoi(ft_strchr(buf, ' '));
-    }
+	if (!ft_strncmp(buf, "Plateau", 7))
+	{
+		buf = ft_strchr(buf, ' ') + 1;
+		filler->map_height = ft_atoi(buf);
+		filler->map_width = ft_atoi(ft_strchr(buf, ' '));
+		return (0);
+	}
+	return (-1);
+}
+
+void	parse_player(char *buf, t_fill *filler)
+{
+	if (ft_strlen(buf) > 10 && (buf[10] == '1' || buf[10] == '2'))
+	{
+		if (buf[10] == '1')
+		{
+			filler->sym = 'O';
+			filler->enemy = 'X';
+		}
+		else
+		{
+			filler->sym = 'X';
+			filler->enemy = 'O';
+		}
+	}
 	else
 		ft_error();
 }
 
-void    parse_player(char *buf, t_fill *filler)
-{
-    if (ft_strlen(buf) > 10 && (buf[10] == '1' || buf[10] == '2'))
-    {
-        if (buf[10] == '1')
-        {
-            filler->sym = 'O';
-            filler->enemy = 'X';
-        }
-        else
-        {
-            filler->sym = 'X';
-            filler->enemy = 'O';
-        }
-    }
-    else
-		ft_error();
-}
-
-void	parse_token(char *buf, t_fill *filler)
+int		parse_token(char *buf, t_fill *filler)
 {
 	if (!ft_strncmp(buf, "Piece", 5))
 	{
 		buf = ft_strchr(buf, ' ') + 1;
 		filler->token_height = ft_atoi(buf);
 		filler->token_width = ft_atoi(ft_strchr(buf, ' '));
+		return (0);
 	}
-	else
-		ft_error();
+	return (-1);
 }
